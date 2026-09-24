@@ -137,6 +137,9 @@ Important rules in [eslint.config.mjs](eslint.config.mjs):
 ## Results and artifacts
 
 - Terminal output and a summary table per spec for each run.
+- JUnit XML reports: `cypress/results/junit-<hash>.xml`, one file per spec, written through
+  `cypress-multi-reporters` alongside the normal `spec` terminal output. The folder is
+  gitignored and emptied at the start of every run.
 - Screenshots of failures: `cypress/screenshots/` (gitignored, cleared on every run; uploaded as
   a CI artifact on failure).
 - Videos are disabled (`video: false`) to keep runs fast. Enable them in `cypress.config.js` if
@@ -147,7 +150,13 @@ Important rules in [eslint.config.mjs](eslint.config.mjs):
 ## Continuous integration
 
 [.github/workflows/e2e.yml](.github/workflows/e2e.yml) runs on every push to `main`: install →
-lint → format check → Cypress (Chrome, headless) → upload screenshots on failure.
+lint → format check → Cypress (Chrome, headless) → publish the JUnit report → upload the JUnit
+XML (and screenshots on failure) as artifacts.
+
+The JUnit report is published by `mikepenz/action-junit-report` as a **"Cypress JUnit Report"**
+check on the commit, with a per-test table in the run's job summary. This needs the workflow's
+`checks: write` permission. The report steps only run when the Cypress step ran, so a lint
+failure is not reported as "no tests found".
 
 It can also be started manually: **Actions → Cypress Regression Tests → Run workflow**. The `cli`
 input replaces the test command, for example:

@@ -97,8 +97,8 @@ separate runs before being filed.
 - **Test data.** Keep generating unique data per test. For a real product, use a dedicated
   environment or a local ServeRest container (`npx serverest`) so that runs do not depend on a
   public shared instance.
-- **Artifacts.** Upload screenshots on failure (already done in `e2e.yml`). Add a JUnit or HTML
-  report so the CI shows results per test.
+- **Artifacts.** Upload screenshots on failure, and publish the JUnit report as a check with a
+  per-test job summary. Both are already done in `e2e.yml`.
 - **Retries.** Keep at most one retry in CI, and report every retried test as flaky. Never raise
   retries to make a red build green.
 - **Maintenance.** Ask the frontend team for `data-testid`s on product cards, table rows and
