@@ -9,6 +9,10 @@ on:
         description: Run by cypress command line
         default: npm test
 
+permissions:
+  contents: read
+  checks: write
+
 jobs:
   cypress:
     runs-on: ubuntu-latest
@@ -31,10 +35,29 @@ jobs:
         run: npm run format:check
 
       - name: Run Cypress suite (Chrome, headless)
+        id: cypress
         uses: cypress-io/github-action@v7
         with:
           install: false
           command: ${{ inputs.cli || 'npm test' }}
+
+      - name: Publish JUnit report
+        if: ${{ !cancelled() && steps.cypress.outcome != 'skipped' }}
+        uses: mikepenz/action-junit-report@v6
+        with:
+          report_paths: cypress/results/junit-*.xml
+          check_name: Cypress JUnit Report
+          include_passed: true
+          detailed_summary: true
+          require_tests: true
+
+      - name: Upload JUnit XML
+        if: ${{ !cancelled() && steps.cypress.outcome != 'skipped' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: cypress-junit-results
+          path: cypress/results
+          retention-days: 14
 
       - name: Upload failure screenshots
         if: failure()

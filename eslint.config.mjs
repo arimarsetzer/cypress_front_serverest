@@ -12,6 +12,7 @@ export default defineConfig([
       'cypress/screenshots/',
       'cypress/videos/',
       'cypress/downloads/',
+      'cypress/results/',
       'docs/evidence/',
     ],
   },

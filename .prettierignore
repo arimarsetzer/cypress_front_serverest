@@ -2,5 +2,6 @@ node_modules/
 cypress/screenshots/
 cypress/videos/
 cypress/downloads/
+cypress/results/
 docs/evidence/
 package-lock.json

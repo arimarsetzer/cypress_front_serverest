@@ -21,11 +21,13 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "cypress": "^16.1.0",
+    "cypress-multi-reporters": "^2.0.5",
     "eslint": "^10.11.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-cypress": "^7.0.2",
     "eslint-plugin-mocha": "^12.0.2",
     "globals": "^17.12.0",
+    "mocha-junit-reporter": "^2.2.1",
     "prettier": "3.9.9"
   }
 }
